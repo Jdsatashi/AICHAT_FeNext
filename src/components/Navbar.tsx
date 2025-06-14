@@ -12,9 +12,12 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex items-center ">
-        <button className="px-4 py-1.5 font-semibold rounded-md border-2 bg-columbia hover:opacity-90 hidden sm:block">
+        <Link
+          href={routes.signin}
+          className="px-4 py-1.5 font-semibold rounded-md border-2 bg-columbia hover:opacity-90 hidden sm:block"
+        >
           Sign in
-        </button>
+        </Link>
       </div>
     </nav>
   );

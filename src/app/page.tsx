@@ -3,14 +3,7 @@ import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
-    <div
-      style={{
-        backgroundImage: "url('/background2.svg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-      }}
-    >
+    <div>
       <div className="container mx-auto">
         <Navbar />
         <section className="grid grid-cols-3 mt-16 text-slate-800">
