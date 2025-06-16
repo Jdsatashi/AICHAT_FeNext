@@ -1,11 +1,13 @@
 "use server";
 
+import { getUsername } from "@/actions/saveToCookies";
 import { routes } from "@/constants/route";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const Navbar2 = async () => {
+  const username = await getUsername();
   return (
     <nav className="navbar rounded-b-md shadow-base-300/20 shadow-sm">
       <div className="w-full md:flex md:items-center md:gap-2">
@@ -44,10 +46,7 @@ const Navbar2 = async () => {
         >
           <ul className="menu md:menu-horizontal gap-2 p-0 text-base max-md:mt-2">
             <li>
-              <a href="#">Home</a>
-            </li>
-            <li>
-              <a href="#">Services</a>
+              <a href="#">Dashboard</a>
             </li>
             <li className="dropdown relative inline-flex [--auto-close:inside] [--offset:9] [--placement:bottom-end]">
               <button
@@ -58,7 +57,7 @@ const Navbar2 = async () => {
                 aria-expanded="false"
                 aria-label="Dropdown"
               >
-                Products
+                Welcom, {username}
                 <span className="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
               </button>
               <ul
@@ -69,23 +68,13 @@ const Navbar2 = async () => {
               >
                 <li>
                   <a className="dropdown-item" href="#">
-                    UI kits
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Templates
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Component library
+                    Account settings
                   </a>
                 </li>
                 <hr className="border-base-content/25 -mx-2" />
                 <li>
                   <a className="dropdown-item" href="#">
-                    Figma designs
+                    Sign out
                   </a>
                 </li>
               </ul>

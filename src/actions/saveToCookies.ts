@@ -26,8 +26,9 @@ export async function saveToken(refreshToken: string, accessToken: string) {
 
 // Get cookies token
 export async function getToken(tokenType: "access" | "refresh" = "access") {
+  const tType = tokenType === "access" ? "session" : "refresh_token";
   const cookieStore = await cookies();
-  const token = cookieStore.get(tokenType);
+  const token = cookieStore.get(tType);
   return token?.value;
 }
 
@@ -39,9 +40,9 @@ export async function removeToken() {
 }
 
 // Save user id to token
-export async function saveUserId(userId: string) {
+export async function saveUsername(username: string) {
   const cookieStore = await cookies();
-  cookieStore.set("user_id", userId, {
+  cookieStore.set("username", username, {
     path: "/",
     maxAge: 60 * jwtAccessExpire,
     sameSite: "lax",
@@ -49,14 +50,14 @@ export async function saveUserId(userId: string) {
 }
 
 // Get user id from token
-export async function getUserId() {
+export async function getUsername() {
   const cookieStore = await cookies();
-  const userId = cookieStore.get("user_id");
+  const userId = cookieStore.get("username");
   return userId?.value || null;
 }
 
 // Remove user id from token
-export async function removeUserId() {
+export async function removeUsername() {
   const cookieStore = await cookies();
-  cookieStore.delete("user_id");
+  cookieStore.delete("username");
 }

@@ -1,4 +1,5 @@
-export const backendUrl = process.env.BACKEND_URL || "";
+export const backendUrl =
+  process.env.BACKEND_URL || process.env.NEXT_PUBLIC_CLIENT_API_URL;
 
 export const jwtAlgorim = process.env.JWT_ALGORITHM || "HS256";
 export const jwtAccessExpire = parseInt(
