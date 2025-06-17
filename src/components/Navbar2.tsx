@@ -1,13 +1,30 @@
-"use server";
+"use client";
 
+import { signOut } from "@/actions/client/signout";
 import { getUsername } from "@/actions/saveToCookies";
 import { routes } from "@/constants/route";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const Navbar2 = async () => {
-  const username = await getUsername();
+const Navbar2 = () => {
+  const [username, setUsername] = useState("user");
+  const [signouting, setSignouting] = useState(false);
+  useEffect(() => {
+    const setName = async () => {
+      const user = await getUsername();
+      setUsername(user ?? "user");
+    };
+    setName();
+  }, []);
+
+  useEffect(() => {
+    if (signouting) {
+      signOut();
+      setSignouting(false);
+    }
+  }, [signouting]);
+
   return (
     <nav className="navbar rounded-b-md shadow-base-300/20 shadow-sm">
       <div className="w-full md:flex md:items-center md:gap-2">
@@ -73,7 +90,11 @@ const Navbar2 = async () => {
                 </li>
                 <hr className="border-base-content/25 -mx-2" />
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <a
+                    onClick={() => setSignouting(true)}
+                    className="dropdown-item"
+                    href="#"
+                  >
                     Sign out
                   </a>
                 </li>

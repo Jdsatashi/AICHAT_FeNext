@@ -14,3 +14,15 @@ export interface ChatTopic {
   note: string;
   origin_user: number;
 }
+
+export interface FormCreateTopic {
+  name: string;
+  description: string;
+  model: string;
+  system_prompt: string;
+  temperature: number;
+  max_token: number;
+  max_msg_retrieve: number;
+  notes: string;
+  origin_user: string | number;
+}

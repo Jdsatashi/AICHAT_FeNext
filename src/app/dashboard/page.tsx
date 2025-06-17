@@ -1,23 +1,98 @@
-"use server";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 
-import { getChatTopics } from "@/actions/api/chatTopic";
-import { getToken } from "@/actions/saveToCookies";
+import { createTopic, getChatTopics } from "@/actions/api/chatTopic";
 import Card from "@/components/Card";
+import ModalForm from "@/components/ModalForm";
 import Navbar2 from "@/components/Navbar2";
+import { topicFields, topicInit } from "@/constants/data/topicFields";
 import { ChatTopic } from "@/types/api";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const page = async () => {
-  const accessToken = getToken("access");
-  const { data, error } = await getChatTopics(`${accessToken}`);
-  console.log(error);
+const PageTopic = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [topics, setTopics] = useState<ChatTopic[]>([]);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [inputData, setInputData] = useState<any>(null);
+
+  useEffect(() => {
+    if (!showModal) {
+      const getTopics = async () => {
+        const { data, error } = await getChatTopics();
+        if (error) {
+          console.log(error);
+          return;
+        }
+        setTopics(data.data);
+      };
+      getTopics();
+    }
+  }, [showModal]);
+
+  useEffect(() => {
+    if (isSubmit && inputData) {
+      const submitTopic = async () => {
+        inputData.temperature = inputData.temperature / 100;
+        const { data, error } = await createTopic(inputData);
+        if (error) {
+          alert(error);
+        }
+      };
+      submitTopic();
+      setIsSubmit(false);
+      setShowModal(false);
+    }
+  }, [inputData, isSubmit]);
+
+  const onClose = () => {
+    setShowModal(false);
+  };
+
+  const handleSubmit = async (data: ChatTopic) => {
+    setIsSubmit(true);
+    setInputData(data);
+  };
+
   return (
     <div className="">
       <Navbar2 />
-      <h2 className="text-2xl">This is the dashboard</h2>
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.data.map((topic: ChatTopic) => (
+      <ModalForm
+        isOpen={showModal}
+        onClose={onClose}
+        handleSubmit={handleSubmit}
+        isSubmit={isSubmit}
+        fields={topicFields}
+        formInit={topicInit}
+      />
+      <div className="container mx-auto px-4 py-8 rounded-3xl">
+        <div className="flex justify-between glass py-4">
+          <div className="flex items-center ms-4">
+            <h2 className="text-3xl font-semibold">{`Topic's dashboard`}</h2>
+            <button
+              onClick={() => setShowModal(true)}
+              type="button"
+              className="btn btn-outline btn-accent ms-2"
+            >
+              Add Topic
+            </button>
+          </div>
+          <div className="flex items-center me-4">
+            <div className="input-floating w-72">
+              <input
+                type="text"
+                placeholder="Search topic"
+                className="input"
+                id="floatingInput"
+              />
+              <label className="input-floating-label" htmlFor="floatingInput">
+                Search
+              </label>
+            </div>
+          </div>
+        </div>
+        <div className="flex"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          {topics.map((topic: ChatTopic) => (
             <Card key={topic.id} topic={topic} />
           ))}
         </div>
@@ -26,4 +101,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default PageTopic;
