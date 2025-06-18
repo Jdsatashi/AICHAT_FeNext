@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChatTopic } from "@/types/api";
+import { FormCreateTopic } from "@/types/api";
 
 const TopicForm = ({
   fields,
@@ -13,7 +13,7 @@ const TopicForm = ({
   fields: any[];
   formInit: any;
   isSubmit: boolean;
-  onSubmit: (data: ChatTopic) => void;
+  onSubmit: (data: FormCreateTopic) => void;
 }) => {
   const [formData, setFormData] = useState(formInit);
 

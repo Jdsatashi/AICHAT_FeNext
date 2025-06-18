@@ -6,7 +6,7 @@ function buildQuery(url: string, params: Record<string, string>) {
   return `${url}?${query}`;
 }
 
-export const getTopics = async (topicId: string) => {
+export const getTopicMessages = async (topicId: string) => {
   const accessToken = await refreshAccessToken();
   try {
     const queryParams = { limit: "10", order_by: "-id" };

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { createTopic, getChatTopics } from "@/actions/api/chatTopic";
@@ -6,14 +5,14 @@ import Card from "@/components/Card";
 import ModalForm from "@/components/ModalForm";
 import Navbar2 from "@/components/Navbar2";
 import { topicFields, topicInit } from "@/constants/data/topicFields";
-import { ChatTopic } from "@/types/api";
+import { ChatTopic, FormCreateTopic } from "@/types/api";
 import React, { useEffect, useState } from "react";
 
 const PageTopic = () => {
   const [showModal, setShowModal] = useState(false);
   const [topics, setTopics] = useState<ChatTopic[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const [inputData, setInputData] = useState<any>(null);
+  const [inputData, setInputData] = useState<FormCreateTopic | null>(null);
 
   useEffect(() => {
     if (!showModal) {
@@ -33,7 +32,7 @@ const PageTopic = () => {
     if (isSubmit && inputData) {
       const submitTopic = async () => {
         inputData.temperature = inputData.temperature / 100;
-        const { data, error } = await createTopic(inputData);
+        const { error } = await createTopic(inputData);
         if (error) {
           alert(error);
         }
@@ -48,7 +47,7 @@ const PageTopic = () => {
     setShowModal(false);
   };
 
-  const handleSubmit = async (data: ChatTopic) => {
+  const handleSubmit = async (data: FormCreateTopic) => {
     setIsSubmit(true);
     setInputData(data);
   };

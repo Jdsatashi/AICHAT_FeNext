@@ -2,7 +2,7 @@
 // components/Modal.tsx
 "use client";
 
-import { ChatTopic } from "@/types/api";
+import { FormCreateTopic } from "@/types/api";
 import React, { useEffect, useRef, useCallback } from "react";
 import TopicForm from "./TopicForm";
 
@@ -14,7 +14,7 @@ interface ModalProps {
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  handleSubmit: (data: ChatTopic) => void;
+  handleSubmit: (data: FormCreateTopic) => void;
   isSubmit: boolean;
   fields: any[];
   formInit: any;
