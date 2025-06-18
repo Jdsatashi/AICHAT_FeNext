@@ -6,12 +6,12 @@ export default function Home() {
     <div>
       <div className="container mx-auto">
         <Navbar />
-        <section className="grid grid-cols-3 mt-16 text-slate-800">
-          <div className="flex flex-col col-span-2">
-            <h1 className="text-5xl font-bold">
+        <section className="grid grid-cols-1 lg:grid-cols-3 mt-16 max-md:mt-8 text-slate-800">
+          <div className="flex flex-col lg:col-span-2">
+            <h1 className="text-5xl font-bold max-md:text-center">
               AI-powered chatbot for your business.
             </h1>
-            <ul className="list-inside list-disc">
+            <ul className="list-inside list-disc max-md:ms-2">
               <li className="mt-6 ms-4 text-2xl">
                 Implement AI in your websites.
               </li>
@@ -23,13 +23,15 @@ export default function Home() {
                 Serve your jobs and more...
               </li>
             </ul>
-            <div className="mt-16">
+            <div className="mt-16 max-md:mt-12 max-md:text-center">
               <button className="btn btn-gradient">
                 ➡️ Get started for free
               </button>
             </div>
           </div>
-          <Cta />
+          <div className="max-md:my-4">
+            <Cta />
+          </div>
         </section>
         <div className="grid grid-cols-2"></div>
       </div>

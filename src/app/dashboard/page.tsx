@@ -64,9 +64,9 @@ const PageTopic = () => {
         formInit={topicInit}
       />
       <div className="container mx-auto px-4 py-8 rounded-3xl">
-        <div className="flex justify-between glass py-4">
+        <div className="flex justify-between max-md:block glass py-4">
           <div className="flex items-center ms-4">
-            <h2 className="text-3xl font-semibold">{`Topic's dashboard`}</h2>
+            <h2 className="text-3xl max-md:text-2xl font-semibold">{`Topic's dashboard`}</h2>
             <button
               onClick={() => setShowModal(true)}
               type="button"
@@ -75,7 +75,7 @@ const PageTopic = () => {
               Add Topic
             </button>
           </div>
-          <div className="flex items-center me-4">
+          <div className="flex max-md:justify-center items-center me-4">
             <div className="input-floating w-72">
               <input
                 type="text"
