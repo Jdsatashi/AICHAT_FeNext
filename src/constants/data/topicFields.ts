@@ -53,7 +53,7 @@ export const topicFields = [
   {
     name: "origin_user",
     label: "Create for user",
-    type: "number",
+    type: "combobox",
   },
 ];
 

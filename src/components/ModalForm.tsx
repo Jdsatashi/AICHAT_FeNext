@@ -4,7 +4,7 @@
 
 import { FormCreateTopic } from "@/types/api";
 import React, { useEffect, useRef, useCallback } from "react";
-import TopicForm from "./TopicForm";
+import TopicForm from "./forms/TopicForm";
 
 interface ModalProps {
   isOpen: boolean;
