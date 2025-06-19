@@ -5,5 +5,8 @@ declare global {
     HSStaticMethods?: {
       autoInit: () => void;
     };
+    HSComboBox?: {
+      getInstance: (element: HTMLElement, isNew?: boolean) => void;
+    };
   }
 }

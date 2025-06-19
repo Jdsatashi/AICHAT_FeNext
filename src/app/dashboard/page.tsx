@@ -3,7 +3,6 @@
 import { createTopic, getChatTopics } from "@/actions/api/chatTopic";
 import Card from "@/components/Card";
 import ModalForm from "@/components/ModalForm";
-import Navbar2 from "@/components/Navbar2";
 import { topicFields, topicInit } from "@/constants/data/topicFields";
 import { ChatTopic, FormCreateTopic } from "@/types/api";
 import React, { useEffect, useState } from "react";
@@ -54,7 +53,6 @@ const PageTopic = () => {
 
   return (
     <div className="">
-      <Navbar2 />
       <ModalForm
         isOpen={showModal}
         onClose={onClose}
@@ -63,7 +61,7 @@ const PageTopic = () => {
         fields={topicFields}
         formInit={topicInit}
       />
-      <div className="container mx-auto px-4 py-8 rounded-3xl">
+      <div className="xl:container mx-auto px-4 py-8 rounded-3xl">
         <div className="flex justify-between max-md:block glass py-4">
           <div className="flex items-center ms-4">
             <h2 className="text-3xl max-md:text-2xl font-semibold">{`Topic's dashboard`}</h2>

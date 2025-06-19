@@ -7,4 +7,5 @@ export const apiRoutes = {
   refreshToken: apiUri + "/auth/refresh-token",
   checkAccessToken: apiUri + "/auth/check-access",
   chatTopic: apiUri + "/chat-gpt/topic",
+  users: apiUri + "/users",
 };

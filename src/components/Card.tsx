@@ -6,7 +6,7 @@ import React from "react";
 
 const Card = ({ topic }: { topic: ChatTopic }) => {
   return (
-    <div className="card image-full w-[300px] md:w-[400px] mx-auto">
+    <div className="card image-full w-[280px] md:w-full mx-auto">
       <div>
         <Image
           className="rounded-lg"

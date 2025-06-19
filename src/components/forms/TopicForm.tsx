@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import { FormCreateTopic } from "@/types/api";
+import UserComboBox from "../UserComboBox";
 
 const TopicForm = ({
   fields,
@@ -26,17 +27,51 @@ const TopicForm = ({
       }}
       className="space-y-4"
     >
-      {fields.map((field) =>
-        field.type !== "select" ? (
-          <div key={field.name} className="mb-1">
-            <div className="w-96">
+      {fields.map((field) => {
+        if (field.type !== "select" && field.type !== "combobox") {
+          return (
+            <div key={field.name} className="mb-1">
+              <div className="w-96">
+                <label className="label-text" htmlFor={field.name}>
+                  {field.label[0].toUpperCase() + field.label.slice(1)}
+                </label>
+                <input
+                  type={field.type}
+                  placeholder={field.label}
+                  className="input"
+                  id={field.name}
+                  name={field.name}
+                  value={formData[field.name]}
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      [field.name]: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+            </div>
+          );
+        } else if (field.type === "combobox") {
+          return (
+            <UserComboBox
+              key={field.name}
+              setInputValue={(value) => {
+                setFormData({
+                  ...formData,
+                  [field.name]: value,
+                });
+              }}
+            />
+          );
+        } else {
+          return (
+            <div className="md:w-96 w-auto mb-1" key={field.name}>
               <label className="label-text" htmlFor={field.name}>
-                {field.label[0].toUpperCase() + field.label.slice(1)}
+                Pick model
               </label>
-              <input
-                type={field.type}
-                placeholder={field.label}
-                className="input"
+              <select
+                className="select"
                 id={field.name}
                 name={field.name}
                 value={formData[field.name]}
@@ -46,35 +81,17 @@ const TopicForm = ({
                     [field.name]: e.target.value,
                   });
                 }}
-              />
+              >
+                {field.options?.map((option: any) => (
+                  <option value={option} key={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </div>
-          </div>
-        ) : (
-          <div className="md:w-96 w-auto mb-1" key={field.name}>
-            <label className="label-text" htmlFor={field.name}>
-              Pick model
-            </label>
-            <select
-              className="select"
-              id={field.name}
-              name={field.name}
-              value={formData[field.name]}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  [field.name]: e.target.value,
-                });
-              }}
-            >
-              {field.options?.map((option: any) => (
-                <option value={option} key={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-        )
-      )}
+          );
+        }
+      })}
 
       {/* Modal Footer - Submit Button */}
       <div className="flex justify-center pt-3 border-t border-gray-200 mt-4">

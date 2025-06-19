@@ -66,5 +66,5 @@ export const topicInit = {
   max_token: 512,
   max_msg_retrieve: 10,
   notes: "",
-  origin_user: 1,
+  origin_user: "",
 };
