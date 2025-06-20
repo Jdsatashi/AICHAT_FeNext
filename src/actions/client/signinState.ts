@@ -1,4 +1,4 @@
-import { saveToken, saveUsername } from "../saveToCookies";
+import { saveToken, saveCookies } from "../saveToCookies";
 import { redirect } from "next/navigation";
 import { routes } from "@/constants/route";
 import { fetchSignin } from "../api/signin";
@@ -41,6 +41,7 @@ export async function signin(
   }
 
   await saveToken(data.refresh_token, data.access_token);
-  await saveUsername(data.user.username);
+  await saveCookies("username", data.user.username);
+  await saveCookies("user_id", data.user.id);
   return redirect(routes.dashboard);
 }

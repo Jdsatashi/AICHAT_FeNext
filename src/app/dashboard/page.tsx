@@ -1,77 +1,30 @@
 "use client";
 
-import { createTopic, getChatTopics } from "@/actions/api/chatTopic";
+import { getChatTopics } from "@/actions/api/chatTopic";
 import { TopicCard } from "@/components/TopicCard";
-import ModalForm from "@/components/ModalForm";
-import { topicFields, topicInit } from "@/constants/data/topicFields";
-import { ChatTopic, FormCreateTopic } from "@/types/api";
+import { ChatTopic } from "@/types/api";
 import React, { useEffect, useState } from "react";
 
 const PageTopic = () => {
-  const [showModal, setShowModal] = useState(false);
   const [topics, setTopics] = useState<ChatTopic[]>([]);
-  const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const [inputData, setInputData] = useState<FormCreateTopic | null>(null);
-
   useEffect(() => {
-    if (!showModal) {
-      const getTopics = async () => {
-        const { data, error } = await getChatTopics();
-        if (error) {
-          console.log(error);
-          return;
-        }
-        setTopics(data.data);
-      };
-      getTopics();
-    }
-  }, [showModal]);
-
-  useEffect(() => {
-    if (isSubmit && inputData) {
-      const submitTopic = async () => {
-        inputData.temperature = inputData.temperature / 100;
-        const { error } = await createTopic(inputData);
-        if (error) {
-          alert(error);
-        }
-      };
-      submitTopic();
-      setIsSubmit(false);
-      setShowModal(false);
-    }
-  }, [inputData, isSubmit]);
-
-  const onClose = () => {
-    setShowModal(false);
-  };
-
-  const handleSubmit = async (data: FormCreateTopic) => {
-    setIsSubmit(true);
-    setInputData(data);
-  };
+    const getTopics = async () => {
+      const { data, error } = await getChatTopics();
+      if (error) {
+        console.log(error);
+        return;
+      }
+      setTopics(data.data);
+    };
+    getTopics();
+  }, []);
 
   return (
     <div className="">
-      <ModalForm
-        isOpen={showModal}
-        onClose={onClose}
-        handleSubmit={handleSubmit}
-        isSubmit={isSubmit}
-        fields={topicFields}
-        formInit={topicInit}
-      />
       <div className="xl:container mx-auto px-4 py-8 rounded-3xl">
         <div className="flex justify-between max-md:block glass py-4">
           <div className="flex items-center ms-4">
             <h2 className="text-3xl max-md:text-2xl font-semibold">{`Topic's dashboard`}</h2>
-            <button
-              onClick={() => setShowModal(true)}
-              type="button"
-              className="btn btn-outline btn-accent ms-2"
-            >
-              ➡️ Add Topic
-            </button>
           </div>
           <div className="flex max-md:justify-center items-center me-4">
             <div className="input-floating w-72">

@@ -40,11 +40,11 @@ export async function removeToken() {
 }
 
 // Save user id to token
-export async function saveUsername(username: string) {
+export async function saveCookies(key: string, value: string) {
   const cookieStore = await cookies();
-  cookieStore.set("username", username, {
+  cookieStore.set(key, value, {
     path: "/",
-    maxAge: 60 * jwtAccessExpire,
+    maxAge: 60 * jwtRefreshExpire,
     sameSite: "lax",
   });
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { checkRole } from "@/actions/api/checkRole";
 import { signOut } from "@/actions/client/signout";
 import { getUsername } from "@/actions/saveToCookies";
 import { routes } from "@/constants/route";
@@ -10,12 +11,19 @@ import React, { useEffect, useState } from "react";
 const Navbar2 = () => {
   const [username, setUsername] = useState("user");
   const [signouting, setSignouting] = useState(false);
+  const [isManager, setIsManager] = useState(false);
+
   useEffect(() => {
     const setName = async () => {
       const user = await getUsername();
       setUsername(user ?? "user");
     };
     setName();
+    const checkingRole = async () => {
+      const role = await checkRole("manager");
+      setIsManager(role as boolean);
+    };
+    checkingRole();
   }, []);
 
   useEffect(() => {
@@ -62,9 +70,12 @@ const Navbar2 = () => {
           className="md:navbar-end collapse hidden grow basis-full overflow-hidden transition-[height] duration-300 max-md:w-full"
         >
           <ul className="menu md:menu-horizontal gap-2 p-0 text-base max-md:mt-2">
-            <li>
-              <a href="#">Dashboard</a>
-            </li>
+            {!isManager && (
+              <li>
+                <Link href={routes.manager}>Management</Link>
+              </li>
+            )}
+
             <li className="dropdown relative inline-flex [--auto-close:inside] [--offset:9] [--placement:bottom-end]">
               <button
                 id="dropdown-nav"
