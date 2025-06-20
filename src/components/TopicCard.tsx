@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Card = ({ topic }: { topic: ChatTopic }) => {
+export const TopicCard = ({ topic }: { topic: ChatTopic }) => {
   return (
     <div className="card image-full w-[280px] md:w-full mx-auto">
       <div>
         <Image
           className="rounded-lg"
-          src="/Rectbg.svg"
+          src="/images/Rectbg.svg"
           alt="overlay image"
           fill
         />
@@ -30,5 +30,3 @@ const Card = ({ topic }: { topic: ChatTopic }) => {
     </div>
   );
 };
-
-export default Card;
