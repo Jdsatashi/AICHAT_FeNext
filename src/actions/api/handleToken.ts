@@ -3,11 +3,12 @@
 import { apiRoutes } from "@/constants/routeApi";
 import { getToken } from "../saveToCookies";
 import { redirect } from "next/navigation";
+import { routes } from "@/constants/route";
 
 export const refreshAccessToken = async () => {
   const refreshToken = await getToken("refresh");
   if (!refreshToken) {
-    return redirect("/signin");
+    return redirect(routes.signin);
   }
   try {
     const res = await fetch(apiRoutes.refreshToken, {
