@@ -1,7 +1,7 @@
 "use client";
 
 import { createTopic, getChatTopics } from "@/actions/api/chatTopic";
-import Card from "@/components/Card";
+import { TopicCard } from "@/components/TopicCard";
 import ModalForm from "@/components/ModalForm";
 import { topicFields, topicInit } from "@/constants/data/topicFields";
 import { ChatTopic, FormCreateTopic } from "@/types/api";
@@ -70,7 +70,7 @@ const PageTopic = () => {
               type="button"
               className="btn btn-outline btn-accent ms-2"
             >
-              Add Topic
+              ➡️ Add Topic
             </button>
           </div>
           <div className="flex max-md:justify-center items-center me-4">
@@ -90,7 +90,7 @@ const PageTopic = () => {
         <div className="flex"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
           {topics.map((topic: ChatTopic) => (
-            <Card key={topic.id} topic={topic} />
+            <TopicCard key={topic.id} topic={topic} />
           ))}
         </div>
       </div>

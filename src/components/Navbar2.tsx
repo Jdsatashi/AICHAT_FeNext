@@ -33,7 +33,7 @@ const Navbar2 = () => {
             <div>
               <Link href={routes.home} className="flex items-center">
                 <Image
-                  src="/icons8-chat-gpt.svg"
+                  src="/icons/favicon.svg"
                   alt="Logo"
                   width={52}
                   height={52}
@@ -74,7 +74,7 @@ const Navbar2 = () => {
                 aria-expanded="false"
                 aria-label="Dropdown"
               >
-                Welcom, {username}
+                Welcome, {username}
                 <span className="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
               </button>
               <ul
