@@ -1,12 +1,13 @@
 import { apiRoutes } from "@/constants/routeApi";
 import { refreshAccessToken } from "./handleToken";
-import { FormCreateTopic } from "@/types/api";
+import { ApiQueryParams, FormCreateTopic } from "@/types/api";
+import StringQueryParam from "@/utils/StringQueryParam";
 
-export const getChatTopics = async (queries: { query: string }) => {
-  const { query } = queries;
+export const getChatTopics = async (queries: ApiQueryParams) => {
+  const queryString = StringQueryParam(queries);
   try {
     const access = await refreshAccessToken();
-    const res = await fetch(apiRoutes.chatTopic + `?query=${query}`, {
+    const res = await fetch(apiRoutes.chatTopic + `${queryString}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

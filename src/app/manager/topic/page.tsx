@@ -4,19 +4,48 @@ import { createTopic, getChatTopics } from "@/actions/api/chatTopic";
 import { TopicCard } from "@/components/TopicCard";
 import ModalForm from "@/components/ModalForm";
 import { topicFields, topicInit } from "@/constants/data/topicFields";
-import { ChatTopic, FormCreateTopic } from "@/types/api";
+import {
+  ApiQueryParamKeys,
+  ApiQueryParams,
+  ChatTopic,
+  FormCreateTopic,
+  initApiQueryParams,
+} from "@/types/api";
 import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import ModalFilter from "@/components/ModalFilter";
+import StringQueryParam from "@/utils/StringQueryParam";
 
 const PageTopic = () => {
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const [queryParams, setQueryParams] =
+    useState<ApiQueryParams>(initApiQueryParams);
+
   const [showModal, setShowModal] = useState(false);
   const [topics, setTopics] = useState<ChatTopic[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [inputData, setInputData] = useState<FormCreateTopic | null>(null);
-  const [searchInput, setSearchInput] = useState<string>("");
+
+  const [showFilter, setShowFilter] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!showModal) {
-      const getTopics = async (queries) => {
+    const queries: { [x: string]: string } = {};
+
+    for (const value of ApiQueryParamKeys) {
+      const queryValue = searchParams.get(value);
+      if (queryValue !== null) {
+        queries[value] = queryValue;
+      }
+    }
+    console.log(queries);
+    setQueryParams(queries);
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!showModal && !showFilter) {
+      const getTopics = async (queries: ApiQueryParams) => {
         const { data, error } = await getChatTopics(queries);
         if (error) {
           console.log(error);
@@ -24,12 +53,12 @@ const PageTopic = () => {
         }
         setTopics(data.data);
       };
-      const queries = {
-        query: searchInput,
-      };
-      getTopics(queries);
+      const queryString = StringQueryParam(queryParams);
+      router.push(window.location.pathname + queryString);
+
+      getTopics(queryParams);
     }
-  }, [showModal, searchInput]);
+  }, [showModal, queryParams, showFilter, router]);
 
   useEffect(() => {
     if (isSubmit && inputData) {
@@ -65,6 +94,12 @@ const PageTopic = () => {
         fields={topicFields}
         formInit={topicInit}
       />
+      <ModalFilter
+        isOpen={showFilter}
+        onClose={() => setShowFilter(false)}
+        queryParams={queryParams}
+        setQueryParams={setQueryParams}
+      />
       <div className="xl:container mx-auto px-4 py-8 rounded-3xl">
         <div className="flex justify-between max-md:block glass py-4">
           <div className="flex items-center ms-4">
@@ -78,14 +113,20 @@ const PageTopic = () => {
             </button>
           </div>
           <div className="flex max-md:justify-center items-center me-4">
+            <label
+              onClick={() => setShowFilter(true)}
+              className="btn btn-circle swap swap-rotate"
+            >
+              <input type="checkbox" />
+              <span className="icon-[tabler--menu-2] swap-off"></span>
+              <span className="icon-[tabler--x] swap-on"></span>
+            </label>
             <div className="input-floating w-72">
               <input
                 type="text"
                 placeholder="Search topic"
                 className="input"
                 id="floatingInput"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
               />
               <label className="input-floating-label" htmlFor="floatingInput">
                 Search
@@ -94,10 +135,12 @@ const PageTopic = () => {
           </div>
         </div>
         <div className="flex"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          {topics.map((topic: ChatTopic) => (
-            <TopicCard key={topic.id} topic={topic} />
-          ))}
+        <div className="mt-4 p-4 glass rounded-md">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-[72vh] overflow-y-scroll">
+            {topics.map((topic: ChatTopic) => (
+              <TopicCard key={topic.id} topic={topic} />
+            ))}
+          </div>
         </div>
       </div>
     </div>

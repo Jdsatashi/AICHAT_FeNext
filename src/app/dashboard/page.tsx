@@ -9,7 +9,7 @@ const PageTopic = () => {
   const [topics, setTopics] = useState<ChatTopic[]>([]);
   useEffect(() => {
     const getTopics = async () => {
-      const { data, error } = await getChatTopics();
+      const { data, error } = await getChatTopics({});
       if (error) {
         console.log(error);
         return;

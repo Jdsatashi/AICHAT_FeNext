@@ -22,7 +22,8 @@ export const getTopicMessages = async (topicId: string) => {
       },
     });
     const data = await res.json();
-    return { data, error: null };
+    console.log(data);
+    return { data: data, error: null };
   } catch (error) {
     return { data: null, error };
   }

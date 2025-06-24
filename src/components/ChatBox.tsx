@@ -46,6 +46,10 @@ const ChatBox: React.FC<{
     }
   };
 
+  useEffect(() => {
+    setMessages(messages);
+  }, [messages]);
+
   // Auto-adjust textarea height whenever inputText changes
   useEffect(() => {
     adjustTextareaHeight();
@@ -73,7 +77,7 @@ const ChatBox: React.FC<{
 
   return (
     // Main wrapper for the entire chat UI
-    <div className="container mx-auto px-4 py-8 h-screen max-h-screen">
+    <div className="container mx-auto px-4 pt-8 pb-24 h-screen max-h-screen">
       {/* Chat card container */}
       <div className="flex flex-col h-full glass shadow-lg rounded-lg overflow-hidden mx-auto my-0 w-full">
         {/* Chat title header */}

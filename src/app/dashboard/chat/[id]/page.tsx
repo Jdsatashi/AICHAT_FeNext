@@ -12,10 +12,12 @@ export default function Detail() {
     const getMessages = async () => {
       if (typeof params.id === "string") {
         const { data, error } = await getTopicMessages(params.id);
+        console.log(data);
         if (error) {
           alert(error);
         }
-        setMessages(data);
+        setMessages(data.data);
+        console.log(messages);
       } else {
         alert("Topic id is not valid");
       }

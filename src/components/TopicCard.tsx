@@ -6,13 +6,14 @@ import React from "react";
 
 export const TopicCard = ({ topic }: { topic: ChatTopic }) => {
   return (
-    <div className="card image-full w-[280px] md:w-full mx-auto">
-      <div>
+    <div className="card image-full w-full mx-auto">
+      <div className="relative">
         <Image
           className="rounded-lg"
           src="/images/Rectbg.svg"
           alt="overlay image"
-          fill
+          fill={true}
+          priority={true}
         />
       </div>
       <div className="card-body">

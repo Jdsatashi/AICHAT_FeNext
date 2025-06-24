@@ -7,6 +7,24 @@ export interface ApiQueryParams {
   strict?: boolean;
 }
 
+export const ApiQueryParamKeys = [
+  "query",
+  "page",
+  "limit",
+  "order_by",
+  "filter",
+  "strict",
+];
+
+export const initApiQueryParams: ApiQueryParams = {
+  query: "",
+  page: 1,
+  limit: 10,
+  order_by: "created_at",
+  filter: "",
+  strict: false,
+};
+
 export interface ChatTopic {
   id: number;
   name: string;
