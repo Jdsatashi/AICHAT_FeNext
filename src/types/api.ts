@@ -44,3 +44,16 @@ export interface FormCreateTopic {
   notes: string;
   origin_user: string | number;
 }
+
+export interface User {
+  id: number | string;
+  username: string;
+  email: string;
+  is_active: boolean;
+}
+
+export interface FormCreateUser {
+  username: string;
+  email: string;
+  password: string;
+}

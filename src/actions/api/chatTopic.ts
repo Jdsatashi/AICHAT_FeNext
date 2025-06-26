@@ -2,6 +2,7 @@ import { apiRoutes } from "@/constants/routeApi";
 import { refreshAccessToken } from "./handleToken";
 import { ApiQueryParams, FormCreateTopic } from "@/types/api";
 import StringQueryParam from "@/utils/StringQueryParam";
+import { TopicSchema } from "@/validation/topic";
 
 export const getChatTopics = async (queries: ApiQueryParams) => {
   const queryString = StringQueryParam(queries);
@@ -22,7 +23,14 @@ export const getChatTopics = async (queries: ApiQueryParams) => {
 };
 
 export const createTopic = async (inputData: FormCreateTopic) => {
+  const validation = TopicSchema.safeParse(inputData);
+
+  if (!validation.success) {
+    return { data: null, error: validation.error.flatten().fieldErrors };
+  }
+
   try {
+    inputData.temperature = inputData.temperature / 100;
     const access = await refreshAccessToken();
     const res = await fetch(apiRoutes.chatTopic, {
       method: "POST",

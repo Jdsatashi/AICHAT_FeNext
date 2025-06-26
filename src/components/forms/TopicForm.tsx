@@ -3,18 +3,21 @@
 
 import React, { useState } from "react";
 import { FormCreateTopic } from "@/types/api";
-import UserComboBox from "../UserComboBox";
+import UserComboBox from "../input/UserComboBox";
+import PasswordInput from "../input/PasswordInput";
 
 const TopicForm = ({
   fields,
   formInit,
   isSubmit,
   onSubmit,
+  errorFields,
 }: {
   fields: any[];
   formInit: any;
   isSubmit: boolean;
   onSubmit: (data: FormCreateTopic) => void;
+  errorFields: Record<string, string> | null;
 }) => {
   const [formData, setFormData] = useState(formInit);
 
@@ -28,17 +31,28 @@ const TopicForm = ({
       className="space-y-4"
     >
       {fields.map((field) => {
-        if (field.type !== "select" && field.type !== "combobox") {
-          return (
-            <div key={field.name} className="mb-1">
-              <div className="w-96">
+        switch (field.type) {
+          case "password":
+            return (
+              <PasswordInput
+                key={field.name}
+                value={formData[field.name]}
+                setValue={(value) => {
+                  setFormData({
+                    ...formData,
+                    [field.name]: value,
+                  });
+                }}
+              />
+            );
+          case "select":
+            return (
+              <div className="md:w-96 w-auto mb-1" key={field.name}>
                 <label className="label-text" htmlFor={field.name}>
-                  {field.label[0].toUpperCase() + field.label.slice(1)}
+                  Pick model
                 </label>
-                <input
-                  type={field.type}
-                  placeholder={field.label}
-                  className="input"
+                <select
+                  className="select"
                   id={field.name}
                   name={field.name}
                   value={formData[field.name]}
@@ -48,48 +62,69 @@ const TopicForm = ({
                       [field.name]: e.target.value,
                     });
                   }}
-                />
+                >
+                  {field.options?.map((option: any) => (
+                    <option value={option} key={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </div>
-          );
-        } else if (field.type === "combobox") {
-          return (
-            <UserComboBox
-              key={field.name}
-              setInputValue={(value) => {
-                setFormData({
-                  ...formData,
-                  [field.name]: value,
-                });
-              }}
-            />
-          );
-        } else {
-          return (
-            <div className="md:w-96 w-auto mb-1" key={field.name}>
-              <label className="label-text" htmlFor={field.name}>
-                Pick model
-              </label>
-              <select
-                className="select"
-                id={field.name}
-                name={field.name}
-                value={formData[field.name]}
-                onChange={(e) => {
+            );
+          case "combobox":
+            return (
+              <UserComboBox
+                key={field.name}
+                setInputValue={(value) => {
                   setFormData({
                     ...formData,
-                    [field.name]: e.target.value,
+                    [field.name]: value,
                   });
                 }}
-              >
-                {field.options?.map((option: any) => (
-                  <option value={option} key={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-          );
+              />
+            );
+          default:
+            return (
+              <div key={field.name} className="mb-1">
+                <div className="w-96">
+                  <label
+                    className={
+                      "label-text " +
+                      (errorFields && errorFields[field.name]
+                        ? "text-red-500"
+                        : "")
+                    }
+                    htmlFor={field.name}
+                  >
+                    {field.label[0].toUpperCase() + field.label.slice(1)}
+                  </label>
+                  <input
+                    type={field.type}
+                    placeholder={field.label}
+                    className={
+                      "input" +
+                      (errorFields && errorFields[field.name]
+                        ? " border-red-500"
+                        : "")
+                    }
+                    id={field.name}
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={(e) => {
+                      setFormData({
+                        ...formData,
+                        [field.name]: e.target.value,
+                      });
+                    }}
+                  />
+                  {errorFields && errorFields[field.name] && (
+                    <div className="text-red-500 text-sm">
+                      {errorFields[field.name]}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
         }
       })}
 

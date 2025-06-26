@@ -2,7 +2,7 @@
 // components/Modal.tsx
 "use client";
 
-import { FormCreateTopic } from "@/types/api";
+import { FormCreateTopic, FormCreateUser } from "@/types/api";
 import React, { useEffect, useRef, useCallback } from "react";
 import TopicForm from "./forms/TopicForm";
 
@@ -14,10 +14,12 @@ interface ModalProps {
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  handleSubmit: (data: FormCreateTopic) => void;
+  handleSubmit: (data: FormCreateTopic | FormCreateUser) => void;
   isSubmit: boolean;
   fields: any[];
   formInit: any;
+  title: string;
+  errorFields: Record<string, string> | null;
 }
 
 const ModalForm: React.FC<ModalProps> = ({
@@ -27,6 +29,8 @@ const ModalForm: React.FC<ModalProps> = ({
   isSubmit,
   fields,
   formInit,
+  title,
+  errorFields,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   // Xử lý đóng modal khi nhấn phím Esc
@@ -69,7 +73,7 @@ const ModalForm: React.FC<ModalProps> = ({
         {/* Modal Header */}
         <div className="flex justify-between items-center pb-3 border-b border-gray-200 mb-4">
           <h2 className="text-xl font-semibold text-gray-800">
-            Create new Topic
+            Create new {title}
           </h2>
           <button
             onClick={onClose}
@@ -97,6 +101,7 @@ const ModalForm: React.FC<ModalProps> = ({
           isSubmit={isSubmit}
           fields={fields}
           formInit={formInit}
+          errorFields={errorFields}
         />
       </div>
     </div>
