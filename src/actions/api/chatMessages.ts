@@ -11,7 +11,7 @@ export const getTopicMessages = async (topicId: string) => {
   try {
     const queryParams = { limit: "10", order_by: "-id" };
     const apiUrl = buildQuery(
-      `${apiRoutes.chatTopic}/${topicId}/messages/${0}`,
+      `${apiRoutes.chatMessages}/topic-${topicId}`,
       queryParams
     );
     const res = await fetch(apiUrl, {

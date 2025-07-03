@@ -9,4 +9,5 @@ export const apiRoutes = {
   checkRole: apiUri + "/auth/check-role",
   chatTopic: apiUri + "/chat-gpt/topic",
   users: apiUri + "/users",
+  chatMessages: apiUri + "/chat-gpt/messages",
 };
